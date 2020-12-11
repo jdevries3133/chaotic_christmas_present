@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Secure Form{% endblock %}
+
+{% block content %}
+
+<h2>Inject me</h2>
+
+<form action="{% url 'formpage' %}" method="POST">
+  {% csrf_token %}
+  <div>
+    <label for="subject">Subject</label>
+    <br />
+    <input name="subject" type="text" />
+  </div>
+  <div>
+    <label for="message">Message</label>
+    <br />
+    <input name="message" class="inject_me_full_of_that_sweet_sweet_sql" type="text" />
+  </div>
+  <div>
+    <input type="submit" />
+  </div>
+</form>
+
+{% endblock %}

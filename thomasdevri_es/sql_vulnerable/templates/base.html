@@ -1,0 +1,23 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <title>{% block title %}{% endblock %}</title>
+  </head>
+  <body>
+    <header>
+        <div class="header__herotext">
+            <h1>thomasdevri.es</h1>
+            <p>Welcome to the <span class="header__thomasfeature">thomas</span> zone</p>
+        </div>
+    </header>
+    <section class="main">
+        <h1>Hello World</h1>
+        {% block content %}{% endblock %}
+    </section>
+  </body>
+</html>
