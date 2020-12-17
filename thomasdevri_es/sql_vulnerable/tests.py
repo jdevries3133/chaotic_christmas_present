@@ -5,12 +5,14 @@ from django.test import Client
 
 from .models import ContactFormData
 
+# TODO: group tests by common setups
+
 # Create your tests here.
 class TestFormVulnerability(TestCase):
 
     def setUp(self):
         for _ in range(10):
-            ContactFormData.objects.create(
+            ContactFormData.objects.create(  # type: ignore
                 subject='setup subject',
                 message='setup message',
             )
@@ -25,11 +27,24 @@ class TestFormVulnerability(TestCase):
 
     def test_form_works_with_normal_use(self):
         client = Client()
-        client.post('/contact/', {
+        response = client.post('/contact/', {
             'subject': 'foo',
             'message': 'bar',
         })
-        self.assertTrue(ContactFormData.objects.filter(subject='foo', message='bar'))  # type: ignore
+        self.assertTrue(
+            ContactFormData.objects.filter(  # type: ignore
+                subject='foo',
+                message='bar'
+            )
+        )
+        self.assertEqual(
+            response.context['real_data']['subject'],  # type: ignore
+            'foo',
+        )
+        self.assertEqual(
+            response.context['real_data']['message'],  # type: ignore
+            'bar',
+        )
 
     def test_custom_query_mimics_orm(self):
         with CaptureQueriesContext(connection) as ctx:
@@ -38,8 +53,15 @@ class TestFormVulnerability(TestCase):
                 'subject': 'foo',
                 'message': 'bar',
             })
-            orm_query = "INSERT INTO sql_vulnerable_contactformdata (subject, message) VALUES ('foo', 'bar')"
-            self.assertTrue(orm_query in [i['sql'] for i in ctx.captured_queries])
+            orm_query = (
+                "INSERT INTO sql_vulnerable_contactformdata (subject, message) "
+                "VALUES ('foo', 'bar')"
+            )
+            self.assertIn(
+                orm_query, [
+                    i['sql'] for i in ctx.captured_queries
+                ]
+            )
 
     def test_sql_injection_successful(self):
         client = Client()
@@ -47,6 +69,28 @@ class TestFormVulnerability(TestCase):
         with CaptureQueriesContext(connection) as ctx:
             client.post('/contact/', {
                 'subject': 'foo',
-                'message': 'bar\'); SELECT * FROM sql_vulnerable_contactformdata; ',
+                'message': (
+                    'bar\'); SELECT * FROM sql_vulnerable_contactformdata; '
+                ),
             })
-            self.assertTrue(injected_query in [i['sql'].strip() for i in ctx.captured_queries])
+            self.assertIn(
+                injected_query, [
+                    i['sql'].strip() for i in ctx.captured_queries
+                ]
+            )
+
+    def test_sql_query_results_passed_to_template_context(self):
+        client = Client()
+        response = client.post('/contact/', {
+            'subject': 'foo',
+            'message': (
+                'bar\'); SELECT * FROM sqlite_master; '
+            ),
+        })
+        with connection.cursor() as cursor:
+            expected_db_response = cursor.execute(
+                'SELECT * FROM sqlite_master'
+            ).fetchall()
+        query_responses = response.context.get('query_responses')  # type: ignore
+        for i in expected_db_response:
+            self.assertIn(i, query_responses)

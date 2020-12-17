@@ -4,8 +4,6 @@ from django.shortcuts import render
 from django.db import connection
 from django.db.utils import OperationalError
 
-from sql_vulnerable.models import ContactFormData  # type: ignore
-
 logger = logging.getLogger(__name__)
 
 def index(request):
@@ -29,4 +27,11 @@ def formpage(request):
                     # invalid sql is expected; it will come from the remnants
                     # after the escaped sql.
                     logger.debug(f'Invalid sql: {query}')
+            return render(request, 'sql_vulnerable/formpage.html', {
+                'query_responses': all_responses,
+                'real_data': {
+                    'subject': request.POST['subject'],
+                    'message': request.POST['message'],
+                },
+            })
     return render(request, 'sql_vulnerable/formpage.html')
