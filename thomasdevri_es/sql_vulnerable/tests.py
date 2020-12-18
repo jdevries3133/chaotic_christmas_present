@@ -4,6 +4,7 @@ from django.db import connection
 from django.test import Client
 
 from .models import ContactFormData
+from .init import init_data
 
 # TODO: group tests by common setups
 
@@ -94,3 +95,16 @@ class TestFormVulnerability(TestCase):
         query_responses = response.context.get('query_responses')  # type: ignore
         for i in expected_db_response:
             self.assertIn(i, query_responses)
+
+class TestInit(TestCase):
+    """
+    Ensure that the initialization script runs and inserts hidden data for
+    thomas to find.
+
+    main() of sql_vulnerable.init is imported as init_data
+    """
+    def test_runs_without_exceptions(self):
+        init_data()
+
+    def test_data_exists_in_db(self):
+        pass

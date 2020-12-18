@@ -4,23 +4,15 @@
 
 {% block content %}
 
-<h2>Inject me</h2>
+<div class="outer_container">
+    <div class="container">
+      <h1>Contact Us!</h1>
+      <h2>We will respond to any query 😉</h2>
 
-<form action="{% url 'formpage' %}" method="POST">
-  {% csrf_token %}
-  <div>
-    <label for="subject">Subject</label>
-    <br />
-    <input name="subject" type="text" />
-  </div>
-  <div>
-    <label for="message">Message</label>
-    <br />
-    <input name="message" class="inject_me_full_of_that_sweet_sweet_sql" type="text" />
-  </div>
-  <div>
-    <input type="submit" />
-  </div>
-</form>
+      {% include 'sql_vulnerable/formpage.formstatus.html' %}
+      {% include 'sql_vulnerable/formpage.form.html' %}
+
+    </div>
+</div>
 
 {% endblock %}

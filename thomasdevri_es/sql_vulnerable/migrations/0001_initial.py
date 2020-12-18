@@ -2,6 +2,8 @@
 
 from django.db import migrations, models
 
+from ..init import init_data, reverse_init_data
+
 
 class Migration(migrations.Migration):
 
@@ -19,4 +21,5 @@ class Migration(migrations.Migration):
                 ('message', models.TextField()),
             ],
         ),
+        migrations.RunPython(init_data, reverse_init_data)
     ]
