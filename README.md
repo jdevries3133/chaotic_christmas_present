@@ -1,21 +1,17 @@
 # Christmas 2020
 
-> Mainly web / networking-based puzzles
-> Get thomasdevri.es domain
-
 ## Flow
 
 ## 1. "I really dig your name"
 
 ### Breadcrumbs
 
-- "I really dig your name" clue => go to https://thomasdevri.es/
+## 1. The Card
 
-  - Cypher text
-  - In the message, include "thomasdevri.es" as a more explicit clue.
-  - "I've got to say, Thomas, I've always really `dig`ed your name. thomasdevri.es – what a banger.
-
-- Also hide a clue to `thomasdevri.es` that is more explicit.
+> Some people don't have the best family relationships, but I've got to say, I really `dig thomasdevri.es`!
+> I didn't `curl` any ribbons for you this year `thomasdevri.es`, but I think
+> you're going to `SQ`uea`L`ing in excitement for your present this year
+> nonetheless.
 
 ## 2. `https://thomasdevri.es/`
 
@@ -25,10 +21,18 @@
 
 ## 3. SQL Injection
 
-- Have a page that is protected by a password.
+The "message" field of the contact form is vulnerable to SQL injection,
+and will spew the results of a valid query back at the user. Thomas can
+use this to find the `staff_site_passwords` table, containing plain
+text passwords to several inactive users, but one active user: `thomasdev`,
+with the password `i_am_an_insecure_chungus`.
+
+## 4. `/staff` route
+
+- Have a page where the user must login
 - List it in the `sitemap.xml` and `robots.txt`, so that he can concievably
   find it before he can access it.
-- He will have to get the password through SQL injection attack.
+- He will have to get the password through SQL injection attack in step 3.
 
 ## 4.
 

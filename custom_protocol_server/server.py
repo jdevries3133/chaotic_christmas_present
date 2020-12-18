@@ -1,7 +1,7 @@
 import socket
 
 HOST = '127.0.0.1'  # Standard loopback interface address (localhost)
-PORT = 65433        # Port to listen on (non-privileged ports are > 1023)
+PORT = 8000        # Port to listen on (non-privileged ports are > 1023)
 
 DATA = (
    b'00000000011100000000001110000000000000111111111111111111111110000000000000000000'

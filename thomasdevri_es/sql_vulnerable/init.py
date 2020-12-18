@@ -25,9 +25,9 @@ def init_data(*a, **kw):
     and ignores arguments passed in by django.
     """
     with connection.cursor() as cursor:
-        cursor.execute('DROP TABLE IF EXISTS ssh_passwords')
+        cursor.execute('DROP TABLE IF EXISTS staff_site_passwords')
         cursor.execute("""
-            CREATE TABLE ssh_passwords (
+            CREATE TABLE staff_site_passwords (
                 id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
                 user TEXT NOT NULL,
                 plaintextpass TEXT NOT NULL,
