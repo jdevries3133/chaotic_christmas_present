@@ -34,10 +34,24 @@ with the password `i_am_an_insecure_chungus`.
   find it before he can access it.
 - He will have to get the password through SQL injection attack in step 3.
 
-## 4.
+### Staff Login
 
-## Custom TCP Protocol
+A plain login page that Thomas can use to get to the dashboard with the
+credentials gained through SQL injection
 
-> Implement a custom tcp protocol at jack://thomasdevri.es.
-> Send binary data which will spell something out visually when printed in an
-> 80 col terminal.
+### Staff Dashboard
+
+A mock company dashboard with "top secret data." In part, it will detail the
+company's experimental TCP protocols, and give Thomas the ports to look for
+(or maybe port ranges to make him sniff it out).
+
+## Custom TCP Protocols
+
+> Implement custom TCP protocols, each of which will be puzzles with clues
+> towards the next step.
+
+### Ideas for Data to Send
+
+- It turns out, you can put an arbitrary amount of bullshit before or after
+  the body of a pdf file, meaning that a pdf document can be obfuscated
+  by surrounding it by a huge amount of nonsense.
