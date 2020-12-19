@@ -1,5 +1,8 @@
 """
 Perform migrations and insert hidden data into database.
+
+Tests always run migrations, and the code is pretty straightforward,
+so there is not test coverage.
 """
 import os
 import sys
@@ -18,6 +21,7 @@ if __name__ == '__main__':
 
 # pylint: disable=wrong-import-position
 from django.db import connection
+from django.contrib.auth.models import User
 
 def init_data(*a, **kw):
     """
@@ -59,20 +63,26 @@ def init_data(*a, **kw):
         ]
         for usr, passwd in silly_users:
             cursor.execute(
-                "INSERT INTO ssh_passwords (user, plaintextpass, isactive) "
+                "INSERT INTO staff_site_passwords (user, plaintextpass, isactive) "
                 f"VALUES ('{usr}', '{passwd}', 0)"
             )
         cursor.execute(
-            "INSERT INTO ssh_passwords (user, plaintextpass, isactive) VALUES "
+            "INSERT INTO staff_site_passwords (user, plaintextpass, isactive) VALUES "
             "('thomasdev', 'i_am_an_insecure_chungus', 1)"
         )
+        User.objects.create_user(
+            username='thomasdev',
+            password='i_am_an_insecure_chungus',
+            is_staff=True
+        )
+
 
 def reverse_init_data(*a, **kw):
     """
     Exists as a django migration hook.
     """
     with connection.cursor() as cursor:
-        cursor.execute('DROP TABLE IF EXISTS ssh_passwords')
+        cursor.execute('DROP TABLE IF EXISTS staff_site_passwords')
 
 
 if __name__ == '__main__':
