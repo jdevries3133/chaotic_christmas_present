@@ -9,3 +9,6 @@ def test_server():
         while data := s.recv(1024):
             recieved += data
         assert recieved == DATA
+
+if __name__ == '__main__':
+    test_server()
