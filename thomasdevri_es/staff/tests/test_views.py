@@ -1,6 +1,3 @@
-from django.contrib.auth.models import User
-from django.test import Client
-from django.test import TestCase
 from django.urls import reverse
 
 
@@ -31,25 +28,33 @@ class TestLoginView(BaseTestWithStaffUser):
 
 class TestDocumentationView(BaseTestWithStaffUser, BaseMarkdownFilesystemTest):
 
-    def test_invalid_slug_renders_not_found_template(self):
-        provided_slug = 'invalid'
-        url = reverse(
-            'documentation',
-            kwargs={
-                'markdownslug': provided_slug
-            }
-        )
-        response = self.client.get(url)
 
-        # not found template is used
-        self.assertTemplateUsed(response, 'staff/docs/not_found.html')
-        # bad slug is in the context
-        self.assertTrue(context_slug := response.context.get('bad_slug'))  # type: ignore
-        # bad slug is same as provided slug
-        self.assertEqual(context_slug, provided_slug)
+    def test_invalid_slug_renders_not_found_template(self):
+        with self.settings(BASE_DIR=self.testdir):
+            provided_slug = 'invalid'
+            url = reverse(
+                'documentation',
+                kwargs={
+                    'markdownslug': provided_slug
+                }
+            )
+            response = self.client.get(url)
+
+            # not found template is used
+            self.assertTemplateUsed(response, 'staff/docs/not_found.html')
+            # bad slug is in the context
+            self.assertTrue(context_slug := response.context.get('bad_slug'))  # type: ignore
+            # bad slug is same as provided slug
+            self.assertEqual(context_slug, provided_slug)
 
     def test_valid_slug_renders_markdown(self):
-        """
-        TODO
-        """
-        raise NotImplementedError
+        with self.settings(BASE_DIR=self.testdir):
+            for path in self.mock_markdown_paths:
+                slug = str(path).replace('/', '.')
+                url = reverse(
+                    'documentation',
+                    kwargs={
+                        'markdownslug': slug
+                    }
+                )
+                response = self.client.get(url)

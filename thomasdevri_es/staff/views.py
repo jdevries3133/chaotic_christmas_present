@@ -1,6 +1,10 @@
+from pathlib import Path
+
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm
+from django.conf import settings
+import markdown
 
 from .validators import MarkdownSlugPathValidator
 
@@ -23,6 +27,15 @@ def dashboard(request):
     return render(request, 'staff/dashboard.html')
 
 def documentation(request, markdownslug):
-    slugval = MarkdownSlugPathValidator(markdownslug)
+    slugval = MarkdownSlugPathValidator(
+        markdownslug,
+        Path(settings.BASE_DIR, 'staff', 'markdown')
+    )
     if not slugval.is_valid():
         return render(request, 'staff/docs/not_found.html', {"bad_slug": markdownslug})
+    with open(slugval.get_path(), 'r') as mdf:
+        markdown_string = mdf.read()
+    return render(request, 'staff/docs/markdown_doc.html', {
+        "doc_title": slugval.get_path().stem,
+        "rendered_markdown": markdown.markdown(markdown_string)
+    })

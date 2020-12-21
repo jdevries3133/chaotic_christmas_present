@@ -1,15 +1,18 @@
 import os
 from pathlib import Path
 
-from django.core.exceptions import ValidationError
 from django.conf import settings
-from django.utils.translation import gettext_lazy as _
 
 
 class MarkdownSlugPathValidator:
+    """
+    Validates that a markdown directory path passed in as a slug exists before
+    proceeding.
+    """
 
-    def __init__(self, slug):
+    def __init__(self, slug: str, markdown_root: Path):
         self.slug = slug
+        self.markdown_root = markdown_root
         self.validated = False
 
     def get_path(self):
@@ -25,9 +28,7 @@ class MarkdownSlugPathValidator:
         """
         if os.path.exists(
             Path(
-                settings.BASE_DIR,
-                'staff',
-                'markdown',
+                self.markdown_root,
                 self._slug_to_path()
             )
         ):
@@ -40,6 +41,9 @@ class MarkdownSlugPathValidator:
         Convert slug to a filesystem path.
         """
         parts = self.slug.split('.')
+        if len(parts) == 1:
+            return Path(self.markdown_root, self.slug + '.md')
         return Path(
-            '/'.join(parts[:-2]) + '/' + '.'.join(parts[-2:])
+            self.markdown_root,
+            '/'.join(parts) + '.md'
         )

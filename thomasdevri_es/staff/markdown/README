@@ -2,3 +2,8 @@
 
 Views will directly open, render, and insert into templates markdown files in
 this folder and subdirectory upon a get request with a validated slug.
+
+Note the following behavior:
+
+- The file name will become the page title.
+- The directory hierarchy will be represented in resultant slugs.

@@ -21,6 +21,7 @@ class BaseMarkdownFilesystemTest(TestCase):
         self.testdir__obj = TemporaryDirectory()
         self.testdir = Path(self.testdir__obj.name)
         self.appdir = Path(self.testdir, 'staff')
+        self.markdown_root = Path(self.appdir, 'markdown')
         os.mkdir(self.appdir)
         self.mock_markdown = (
             "# Hello World!\n\n> This is a test of the markdown build process."
@@ -41,7 +42,8 @@ class BaseMarkdownFilesystemTest(TestCase):
             '<p><code>print(\'hello world!\')</code></p>\n</div>'
         )
         self.mock_markdown_paths = [
-            Path(i) for i in [
+            Path(self.markdown_root, i) for i in [
+                'root.md',
                 'a/a1.md',
                 'a/a2.md',
                 'a/a3.md',
