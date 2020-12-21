@@ -8,10 +8,10 @@
 
 ## 1. The Card
 
-> Some people don't have the best family relationships, but I've got to say, I really `dig thomasdevri.es`!
-> I didn't `curl` any ribbons for you this year `thomasdevri.es`, but I think
-> you're going to `SQ`uea`L`ing in excitement for your present this year
-> nonetheless.
+> Some people don't have the best family relationships, but I've got to say,
+> I really `dig thomasdevri.es`! I didn't `curl` any ribbons for you this year
+> `thomasdevri.es`, but I think you're going to `SQ`uea`L`ing in excitement
+> for your present this year nonetheless.
 
 ## 2. `https://thomasdevri.es/`
 
