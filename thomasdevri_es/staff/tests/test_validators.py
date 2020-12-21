@@ -30,8 +30,7 @@ class TestMarkdownSlugPathValidator(BaseMarkdownFilesystemTest):
         with self.settings(BASE_DIR=self.testdir):
             for slug in test_slugs:
                 path = MarkdownSlugPathValidator(slug)
-                with self.assertRaises(ValidationError):
-                    path.is_valid()
+                self.assertFalse(path.is_valid())
 
     def test_premature_get_slug_raises_exception(self):
         with self.settings(BASE_DIR=self.testdir):

@@ -9,17 +9,7 @@ from .base_test_cases import (
     BaseMarkdownFilesystemTest
 )
 
-class TestLoginView(TestCase):
-
-    def setUp(self):
-        self.username = 'thisisatestusernamethatislong'
-        self.password = 'fdsahifhsaudfireua9eaighueaar3ww2w'
-        self.user = User.objects.create_user(
-            username=self.username,
-            password=self.password,
-            is_staff=True,
-        )
-        self.client = Client()
+class TestLoginView(BaseTestWithStaffUser):
 
     def test_login_view_get_request(self):
         self.client.get(reverse('staff_login'))
@@ -41,5 +31,25 @@ class TestLoginView(TestCase):
 
 class TestDocumentationView(BaseTestWithStaffUser, BaseMarkdownFilesystemTest):
 
-    def test_test(self):
-        pass
+    def test_invalid_slug_renders_not_found_template(self):
+        provided_slug = 'invalid'
+        url = reverse(
+            'documentation',
+            kwargs={
+                'markdownslug': provided_slug
+            }
+        )
+        response = self.client.get(url)
+
+        # not found template is used
+        self.assertTemplateUsed(response, 'staff/docs/not_found.html')
+        # bad slug is in the context
+        self.assertTrue(context_slug := response.context.get('bad_slug'))  # type: ignore
+        # bad slug is same as provided slug
+        self.assertEqual(context_slug, provided_slug)
+
+    def test_valid_slug_renders_markdown(self):
+        """
+        TODO
+        """
+        raise NotImplementedError

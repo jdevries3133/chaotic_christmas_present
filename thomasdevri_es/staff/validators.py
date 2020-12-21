@@ -16,7 +16,7 @@ class MarkdownSlugPathValidator:
         if self.validated:
             return self._slug_to_path()
         raise Exception(
-            "You may not call get_slug before first calling is_valid()"
+            "You may not call get_path on an invalid or unvalidated slug"
         )
 
     def is_valid(self) -> bool:
@@ -33,7 +33,7 @@ class MarkdownSlugPathValidator:
         ):
             self.validated = True
             return True
-        raise ValidationError(_('Invalid URL'))
+        return False
 
     def _slug_to_path(self):
         """

@@ -22,7 +22,7 @@ def login_view(request):
 def dashboard(request):
     return render(request, 'staff/dashboard.html')
 
-def documentation(request, slug):
-    slugval = MarkdownSlugPathValidator(slug)
-    if not slugval.is_valid:
-        return render(request, 'staff/docs/not_found.html', {"bad_slug": slug})
+def documentation(request, markdownslug):
+    slugval = MarkdownSlugPathValidator(markdownslug)
+    if not slugval.is_valid():
+        return render(request, 'staff/docs/not_found.html', {"bad_slug": markdownslug})
