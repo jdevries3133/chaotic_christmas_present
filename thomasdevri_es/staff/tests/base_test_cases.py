@@ -1,48 +1,12 @@
-import os
-import shutil
-from io import StringIO
-from pathlib import Path
-from unittest.mock import mock_open
 from tempfile import TemporaryDirectory
+from pathlib import Path
+import os
 
 
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User
-from django.core.management import call_command
 from django.test import Client
-from django.core.exceptions import ValidationError
-
-
-from .validators import MarkdownSlugPathValidator
-
-class TestLoginView(TestCase):
-
-    def setUp(self):
-        self.username = 'thisisatestusernamethatislong'
-        self.password = 'fdsahifhsaudfireua9eaighueaar3ww2w'
-        self.user = User.objects.create_user(
-            username=self.username,
-            password=self.password,
-            is_staff=True,
-        )
-        self.client = Client()
-
-    def test_login_view_get_request(self):
-        self.client.get(reverse('staff_login'))
-
-    def test_staff_login_view_empty_post_request(self):
-        self.client.post(reverse('staff_login'))
-
-    def test_staff_login_view_authenticates_user(self):
-        response = self.client.post(
-            reverse('staff_login'),
-            {
-                'username': self.username,
-                'password': self.password,
-            }
-        )
-        self.assertRedirects(response, reverse('dashboard'))
 
 
 class BaseMarkdownFilesystemTest(TestCase):
@@ -53,6 +17,7 @@ class BaseMarkdownFilesystemTest(TestCase):
     """
 
     def setUp(self):
+        super().setUp()
         self.testdir__obj = TemporaryDirectory()
         self.testdir = Path(self.testdir__obj.name)
         self.appdir = Path(self.testdir, 'staff')
@@ -99,29 +64,22 @@ class BaseMarkdownFilesystemTest(TestCase):
         self.testdir__obj.cleanup()
 
 
-class TestMarkdownSlugPathValidator(BaseMarkdownFilesystemTest):
+class BaseTestWithStaffUser(TestCase):
 
-    def test_valid_paths_raise_no_exception(self):
-        with self.settings(BASE_DIR=self.testdir):
-            for path in self.mock_markdown_paths:
-                slug = str(path).replace('/', '.')
-                validator = MarkdownSlugPathValidator(slug)
-                self.assertTrue(validator.is_valid())
-
-    def test_conversion(self):
-        with self.settings(BASE_DIR=self.testdir):
-             path = MarkdownSlugPathValidator('c.c.c.c1.md')._slug_to_path()
-             self.assertEqual(path, Path('c', 'c', 'c', 'c1.md'))
-
-    def test_invalid_paths_are_rejected(self):
-        test_slugs = [
-            'etc.passwd',
-            'a.a.a1.html',
-            'b.c.env',
-            'a.a1.txt'
-        ]
-        with self.settings(BASE_DIR=self.testdir):
-            for slug in test_slugs:
-                path = MarkdownSlugPathValidator(slug)
-                with self.assertRaises(ValidationError):
-                    path.is_valid()
+    def setUp(self):
+        super().setUp()
+        self.username = 'thisisatestusernamethatislong'
+        self.password = 'fdsahifhsaudfireua9eaighueaar3ww2w'
+        self.user = User.objects.create_user(
+            username=self.username,
+            password=self.password,
+            is_staff=True,
+        )
+        self.client = Client()
+        self.client.post(
+            reverse('staff_login'),
+            {
+                'username': self.username,
+                'password': self.password,
+            }
+        )

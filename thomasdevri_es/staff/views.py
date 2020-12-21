@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 
+from .validators import MarkdownSlugPathValidator
+
 # Create your views here.
 def login_view(request):
     form = AuthenticationForm()
@@ -19,3 +21,8 @@ def login_view(request):
 
 def dashboard(request):
     return render(request, 'staff/dashboard.html')
+
+def documentation(request, slug):
+    slugval = MarkdownSlugPathValidator(slug)
+    if not slugval.is_valid:
+        return render(request, 'staff/docs/not_found.html', {"bad_slug": slug})
