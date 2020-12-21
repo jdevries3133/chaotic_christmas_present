@@ -11,6 +11,10 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from django.core.management import call_command
 from django.test import Client
+from django.core.exceptions import ValidationError
+
+
+from .validators import MarkdownSlugPathValidator
 
 class TestLoginView(TestCase):
 
@@ -41,7 +45,12 @@ class TestLoginView(TestCase):
         self.assertRedirects(response, reverse('dashboard'))
 
 
-class TestRenderMarkdown(TestCase):
+class BaseMarkdownFilesystemTest(TestCase):
+    """
+    Generate a temporary directory full of markdown files with an expected
+    html result for testing workflows involving markdown files in the
+    filesystem.
+    """
 
     def setUp(self):
         self.testdir__obj = TemporaryDirectory()
@@ -89,30 +98,30 @@ class TestRenderMarkdown(TestCase):
     def tearDown(self):
         self.testdir__obj.cleanup()
 
-    def test_command_generates_expected_html_for_a_single_path(self):
+
+class TestMarkdownSlugPathValidator(BaseMarkdownFilesystemTest):
+
+    def test_valid_paths_raise_no_exception(self):
         with self.settings(BASE_DIR=self.testdir):
-            call_command('rendermarkdown')
-        with open(Path(self.appdir, 'templates', 'a', 'a1.html'), 'r') as htmlf:
-            generated_html = htmlf.read()
-        # print(self.expected_html)
-        # print(generated_html)
-        self.assertEqual(self.expected_html, generated_html)
+            for path in self.mock_markdown_paths:
+                slug = str(path).replace('/', '.')
+                validator = MarkdownSlugPathValidator(slug)
+                self.assertTrue(validator.is_valid())
 
-    def test_command_generates_all_expected_html(self):
-        """
-        Iterate over self.mock_markdown_paths and make sure that all
-        of the  expected html is generated.
-        """
-        raise NotImplementedError
+    def test_conversion(self):
+        with self.settings(BASE_DIR=self.testdir):
+             path = MarkdownSlugPathValidator('c.c.c.c1.md')._slug_to_path()
+             self.assertEqual(path, Path('c', 'c', 'c', 'c1.md'))
 
-
-    def test_naming_conflict_causes_exception(self):
-        """
-        If a template is already in the templates folder with the target file
-        name of the markdown currently being rendered, it should only
-        be overwritten if it appears to be a previously generated markdown file.
-
-        Otherwise, an exception will be raised to avoid overwriting genuine
-        templates.
-        """
-        raise NotImplementedError
+    def test_invalid_paths_are_rejected(self):
+        test_slugs = [
+            'etc.passwd',
+            'a.a.a1.html',
+            'b.c.env',
+            'a.a1.txt'
+        ]
+        with self.settings(BASE_DIR=self.testdir):
+            for slug in test_slugs:
+                path = MarkdownSlugPathValidator(slug)
+                with self.assertRaises(ValidationError):
+                    path.is_valid()
