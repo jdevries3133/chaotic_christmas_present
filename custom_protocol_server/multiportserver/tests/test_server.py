@@ -43,7 +43,6 @@ class TestServerMessages(TestCase):
                 self.assertEqual(recieved, server.message)
 
 
-
 class TestServerIntegration(TestCase):
     """
     Integration test that runs server in a subprocess.
@@ -64,7 +63,7 @@ class TestServerIntegration(TestCase):
                 '--message',    self.MESSAGE,
             ],
         )
-        sleep(0.2)  # wait for process to start up. This may produce inconsistent behavior
+        sleep(0.5)  # wait for process to start up. This may produce inconsistent behavior
 
     def tearDown(self):
         # close server

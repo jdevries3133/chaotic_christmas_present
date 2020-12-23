@@ -9,6 +9,7 @@ import signal
 import logging
 import sys
 import socket
+from time import sleep
 
 logger = logging.getLogger(__name__)
 
@@ -50,6 +51,7 @@ class Server:
     def exit(self, *a, **kw):
         self.is_listening = False
         self.socket.close()
+        sleep(3)  # must account for OS-level TIME_WAIT
 
 
 if __name__ == '__main__':

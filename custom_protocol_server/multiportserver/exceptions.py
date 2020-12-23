@@ -5,3 +5,6 @@ class SubprocessServerManagerBaseException(Exception):
 class ImproperlyConfigured(SubprocessServerManagerBaseException):
     pass
 
+
+class SubprocessServerNotResponding(SubprocessServerManagerBaseException):
+    pass
