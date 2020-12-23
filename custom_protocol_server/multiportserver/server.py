@@ -5,7 +5,7 @@ parent process at any time.
 """
 
 import argparse
-import os
+import signal
 import logging
 import sys
 import socket
@@ -22,23 +22,34 @@ class Server:
         self.host = host
         self.port = port
         self.message = message
+        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
-    def listen(self):
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            s.bind((self.host, self.port))
-            s.listen()
-            while True:
-                conn, addr = s.accept()
-                with conn:
-                    conn.sendall(self.message)
-                self._housekeep(conn, addr)
+        # setup graceful exit
+        self.is_listening = True
+        signal.signal(signal.SIGINT, self.exit)
+        signal.signal(signal.SIGTERM, self.exit)
 
-    def _housekeep(self, last_conn, last_addr):
+        # open socket and start listening
+        self.socket.bind((self.host, self.port))
+        self.socket.listen()
+
+    def serve(self):
         """
-        Any side effects inbetween connections can happen here. For example
-        sending data through a pipe to the parent or reading from a database
-        to update the message.
+        Infinite loop until SIGINT or SIGTERM
         """
+        while self.is_listening:
+            self._send_message()
+
+    def _send_message(self):
+        conn, addr = self.socket.accept()
+        with conn:
+            conn.sendall(self.message)
+        return conn, addr
+
+    def exit(self, *a, **kw):
+        self.is_listening = False
+        self.socket.close()
 
 
 if __name__ == '__main__':
@@ -64,12 +75,12 @@ if __name__ == '__main__':
         default='Hello, world!',
         help=(
             'Message to echo when the port and host are connected to. Default '
-            '"Hello, world!"'
+            'Hello, world!'
         )
     )
     args = parser.parse_args()
     if len(sys.argv) == 1:
-        print('WARN: Running server with defaults.')
         parser.print_help()
+        print('WARN: Running server with defaults.')
     server = Server(args.host, args.port, bytes(args.message, 'utf-8'))
-    server.listen()
+    server.serve()
