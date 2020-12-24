@@ -23,10 +23,12 @@ class TestServerMessages(TestCase):
         self.servers = [
             Server(
                 '127.0.0.1',
-                i + 6000,
+                i + 7000,
                 message
             ) for i, message in enumerate(self.MESSAGES)
         ]
+        for server in self.servers:
+            server.connect()
 
     def tearDown(self):
         for server in self.servers:

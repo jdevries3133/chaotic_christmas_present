@@ -8,3 +8,6 @@ class ImproperlyConfigured(SubprocessServerManagerBaseException):
 
 class SubprocessServerNotResponding(SubprocessServerManagerBaseException):
     pass
+
+class ServerCannotConnect(SubprocessServerManagerBaseException):
+    pass

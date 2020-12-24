@@ -17,3 +17,11 @@ This obviously opens up a world of possibilities for puzzle design.
 - [ ] Reach minimum viable behavior
 - [ ] Begin designing puzzles, including frontend "documentation"
 - [ ] Revisit interprocess communication
+
+# Unit Tests
+
+Fair warning: unit test are SLOW. Currently taking ~10 seconds and counting
+with only a few tests. Most tests involve starting and stopping socket servers
+insubprocesses which necessarily involves waiting for OS-level "TIME_WAIT" to
+free sockets. Note the single time.sleep call in `multiport.server.Server.stop()`.
+That may cause unpredictable behavior on different platforms.
