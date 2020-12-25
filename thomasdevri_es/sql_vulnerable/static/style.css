@@ -288,3 +288,7 @@ button.home__cta {
   padding: 20px;
   text-align: left;
 }
+
+.markdown__textcontainer > * {
+  margin-bottom: 15px;
+}

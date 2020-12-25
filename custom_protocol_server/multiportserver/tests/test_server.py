@@ -14,7 +14,7 @@ class TestServerMessages(TestCase):
     Test that the server behaves consistently for a wide range of messages.
     """
     MESSAGES = [
-        b'test message',
+        b'ttest messagetest messagetest messagetest messagetest messagetest messagetest messagetest messagetest messagetest messagetest messagetest messagetest messagetest messagetest messageest message',
         bytes(string.printable, 'utf-8'),
         bytes('😳', 'utf-8'),
     ]

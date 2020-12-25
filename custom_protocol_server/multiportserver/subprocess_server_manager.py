@@ -134,6 +134,7 @@ class SubprocessServerManager:
             ...
         }
         """
+        used_ports = set()
         for v in schema.values():
             for item, type_ in {
                     'host': str,
@@ -144,3 +145,6 @@ class SubprocessServerManager:
                     raise ImproperlyConfigured
                 if not isinstance(v[item], type_):
                     raise ImproperlyConfigured
+            if v['port'] in used_ports:
+                raise ImproperlyConfigured(f'Two servers want port {v["port"]}')
+            used_ports.add(v['port'])

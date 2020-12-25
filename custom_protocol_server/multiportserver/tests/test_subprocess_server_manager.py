@@ -55,7 +55,16 @@ class TestSubprocessServerManager(TestCase):
                 'host': '127.0.0.1',
                 'port': 6002,
                 'message': 'test server 2 message'
-            }
+            },
+            'long_message': {
+                'host': '127.0.0.1',
+                'port': 6003,
+                'message': (
+                    'test server 2 messageWe are experiencing strong winds and '
+                    'freezing temperatures." Freezing is describing the '
+                    'temperature, so it is an adjective.'
+                ),
+            },
         })
 
     def tearDown(self):
@@ -104,5 +113,20 @@ class TestSubprocessServerManager(TestCase):
             with self.assertRaises(ImproperlyConfigured):
                 SubprocessServerManager(schema)
 
+    def test_two_servers_cannot_request_same_port(self):
+        schema = {
+            's1': {
+                'host': '127.0.0.1',
+                'port': 1000,
+                'message': 'hi',
+            },
+            's2': {
+                'host': '127.0.0.1',
+                'port': 1000,
+                'message': 'hi',
+            },
+        }
+        with self.assertRaises(ImproperlyConfigured):
+            SubprocessServerManager(schema)
     def test_starts_and_stops(self):
         self.manager.start()

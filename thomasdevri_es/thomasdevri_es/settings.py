@@ -56,6 +56,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'thomasdevri_es.urls'
+LOGIN_URL = '/staff/login/'
 
 TEMPLATES = [
     {

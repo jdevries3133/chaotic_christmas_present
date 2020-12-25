@@ -1,35 +1,41 @@
-
-
-
-
 SCHEMA = {
-    'test_server_1': {
+    'hello world / please kill me now': {
         'host': '127.0.0.1',
-        'port': 3000,
-        'message': 'Merry Christmas. Welcome to hell :)'
+        'port': 1050,
+        'message': (
+            'Dear god please help me world! These assholes have me replying to '
+            'every request by hand. This is insanity. No person should have to '
+            'suffer such a fate!!!'
+        ),
     },
-    'test_server_2': {
-        'host': '127.0.0.1',
-        'port': 6002,
-        'message': 'test server 2 message'
-    }
 }
 
+fibbonaci_ports = [
+    1597,
+    2584,
+    4181,
+    6765,
+    10946,
+    17711,
+    28657,
+    46368,
+]
+fibbonaci_message = 'GOTOJAIL'
 
-link = 'https://thomas-christmas.s3.us-east-2.amazonaws.com/DCmsyDq.jpg'
+assert len(fibbonaci_ports) == len(fibbonaci_message)
 
-index = 4001
-
-for index, letter in enumerate(link):
-    SCHEMA[f'congration{index}'] = {
+for port, message in zip(fibbonaci_ports, fibbonaci_message):
+    SCHEMA[f'Fibbonaci, port {port}'] = {
+        'port': port,
         'host': '127.0.0.1',
-        'port': 4000 + index,
-        'message': letter,
+        'message': message,
     }
 
-SCHEMA['congration_termination'] = {
+SCHEMA['JAIL'] = {
+    'port': 5245,  # JAIL on a number pad
     'host': '127.0.0.1',
-    'port': index,
-    'message': 'you got it, stop iterating pls',
+    'message': (
+        'Nice job buddy ol boy. Go to this link: https://thomasdevri.es'
+        '/staff/docs/you.might/'
+    ),
 }
-
