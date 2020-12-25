@@ -25,11 +25,11 @@ def login_view(request):
                 return redirect('dashboard')
     return render(request, 'staff/login.html', {'form': AuthenticationForm()})
 
-@ staff_member_required
+# @ staff_member_required
 def dashboard(request):
     return render(request, 'staff/dashboard.html')
 
-@ staff_member_required
+# @ staff_member_required
 def documentation(request, markdownslug):
     slugval = MarkdownSlugPathValidator(
         markdownslug,
@@ -44,7 +44,7 @@ def documentation(request, markdownslug):
         "rendered_markdown": markdown.markdown(markdown_string)
     })
 
-@ staff_member_required
+# @ staff_member_required
 def doclist(request):
     docs = []
     for i in Path(settings.BASE_DIR, 'staff', 'markdown').iterdir():
