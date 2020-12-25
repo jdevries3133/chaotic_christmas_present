@@ -6,3 +6,4 @@ venv
 Session.vim
 db.sqlite3
 static_root/
+*.log
