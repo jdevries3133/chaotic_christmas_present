@@ -292,3 +292,11 @@ button.home__cta {
 .markdown__textcontainer > * {
   margin-bottom: 15px;
 }
+
+.docpage__base__button {
+  margin-top: 20px;
+  font-size: 36px;
+  color: var(--purple);
+  background-color: var(--orange);
+  border-radius: 10px;
+}

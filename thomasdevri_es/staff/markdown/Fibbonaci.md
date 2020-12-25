@@ -15,7 +15,11 @@ and "Amazon Website Showcase (AWS)." These technologies tell us that we need
 to distribute our systems.
 
 But, these technologies are heavy, expensive, and at too high a level. What if
-we could hide our messages in a
+we could hide our messages in the first eight numbers in the fibbonaci sequence
+that fall within the range of unprivileged TCP ports? Then we would be secure
+**TO THE MAX!**
+
+<img width="900px" src="https://upload.wikimedia.org/wikipedia/en/9/9d/Fort_Knox_tank.jpg" />
 
 ### Are ya too WEAK??
 

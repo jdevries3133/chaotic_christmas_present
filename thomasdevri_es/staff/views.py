@@ -31,6 +31,27 @@ def dashboard(request):
 
 # @ staff_member_required
 def documentation(request, markdownslug):
+    # BEGIN MONKEY PATCH; FILE NAME TOO LONG
+    secret = (  # secret from round 1 challenge
+        'dkBiqWBYnpLwYtcRalgjAEQTtPrcCkobBzZDAcuJOPMRDIzIlcQdigzWRnNbdrWLNLxfpwSjOw'
+        'RWQcKIcBPyHenwrVXaInIUgCwfaLoAZwCoNpODeHDwmKrUIiPMFPpxBXGOxkEhRppFOwOUjWgf'
+        'SnwlFdQQQarKzicxtTWIXrqurdOQUVGDPlDLEfxBcYFRcOlqzuhNfvYFERVuRgkxGXHWYnhzOH'
+        'JJAKDtzhPiiFYcLJAtgsmPsXDlfgfyFhiKoBfSotnNPmdqLRYYurOEWpZoprSWXnHpKwtWzYbk'
+        'gnBr'
+    )
+    try:
+        markdownbit = markdownslug.split('.')[1]
+        if markdownbit == secret:
+            with open(Path(settings.BASE_DIR, 'staff', 'markdown', 'round2', 'wohoo.md'), 'r') as mdf:
+                markdown_string = mdf.read()
+                return render(request, 'staff/docs/markdown_doc.html', {
+                    "doc_title": secret,
+                    "rendered_markdown": markdown.markdown(markdown_string)
+                })
+    except IndexError:
+        pass
+    # END MONKEYPATCH; FILE NAME TOO LONG
+
     slugval = MarkdownSlugPathValidator(
         markdownslug,
         Path(settings.BASE_DIR, 'staff', 'markdown')
