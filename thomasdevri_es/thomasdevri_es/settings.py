@@ -26,8 +26,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET')
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    'localhost',
-    'gunicorn',
+    '*'
 ]
 
 
@@ -134,7 +133,7 @@ LOGGING = {
         'file': {
             'level': 'INFO',
             'class': 'logging.FileHandler',
-            'filename': 'thomasdevri.es.log',
+            'filename': 'django.log',
         },
     },
     'loggers': {

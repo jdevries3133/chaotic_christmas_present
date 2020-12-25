@@ -1,6 +1,7 @@
 import logging
 
 from django.shortcuts import render
+from django.http import HttpResponse
 from django.db import connection
 from django.db.utils import OperationalError
 
@@ -35,3 +36,12 @@ def formpage(request):
                 },
             })
     return render(request, 'sql_vulnerable/formpage.html')
+
+def robots(request):
+    return HttpResponse(
+        (
+        'User-agent: *\n'
+        'Disallow: /staff/login'
+        ),
+        content_type="text/plain"
+    )
