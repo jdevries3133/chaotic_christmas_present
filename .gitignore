@@ -5,3 +5,4 @@ venv
 .vim
 Session.vim
 db.sqlite3
+static_root/
