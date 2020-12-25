@@ -10,10 +10,21 @@
   </head>
   <body>
     <header>
-        <div class="container">
-            <h1>thomasdevri.es</h1>
-            <p>Welcome to the <span class="header__thomasfeature">thomas</span> zone</p>
-        </div>
+      <div class="base__container">
+        <a class="neutral-link" href="{% url 'index' %}">
+          <div class="feature">
+            <h1 class="feature">thomasdevri.es</h1>
+            <h1 class="feature">thomasdevri.es</h1>
+          </div>
+        </a>
+        <p class="base__thomaszone"
+          >Welcome to the
+            <span class="base__thomaszone shadow"
+              >Thomas Zone
+            </span>
+        </p>
+        {% block header-extension %}{% endblock %}
+      </div>
     </header>
     <main class="main">
         {% block content %}{% endblock %}

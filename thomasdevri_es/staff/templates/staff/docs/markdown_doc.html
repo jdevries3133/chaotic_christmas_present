@@ -4,10 +4,21 @@
 
 {% block content %}
 
+<br />
+<br />
 
-<h1>{{ doc_title }}</h1>
+<div class="container white shadow">
 
-{{ rendered_markdown|safe|escape }}
+
+  <h1>{{ doc_title }}</h1>
+
+  <br />
+
+  <div class="markdown__textcontainer">
+    {{ rendered_markdown|safe|escape }}
+  </div>
+
+</div>
 
 
 {% endblock %}

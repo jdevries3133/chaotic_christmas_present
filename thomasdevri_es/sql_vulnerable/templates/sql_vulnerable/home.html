@@ -1,10 +1,81 @@
-
 {% extends 'base.html' %}
 
-{% block title %}Secure Form{% endblock %}
+
+{% block title %}Welcome Home!{% endblock %}
+
+
+{% block header-extension %}
+
+
+<p style="margin-top: 20px; font-size: 50px;">😁</p>
+<img
+  class="rounded shadow spin"
+  src="https://thomas-christmas.s3.us-east-2.amazonaws.com/20170609_232236.jpg" />
+
+
+{% endblock %}
 
 {% block content %}
 
-<h2>Welcome Home</h2>
+<div class="vert-whitespace"></div>
+
+{% comment %} BEGIN CARDS {% endcomment %}
+
+<div class="card-container">
+
+  <div class="card shadow">
+    <img
+      class="home__card__cube"
+      src="https://thomas-christmas.s3.us-east-2.amazonaws.com/1200px-Scramble.svg.png" />
+    <h3>Cube Maestro</h3>
+    <p>
+      No one can cube the way I do! Contact me for any and all of your cube-related needs. 
+      Have one blue square stuck in the middle of a red side? Want to solve the
+      puzzle in under 2 minutes? You can get all of this and more with Thomas
+      DeVries. Click to find out more!
+    </p>
+  </div>
+
+
+  <div class="card shadow">
+    <img
+      src="https://thomas-christmas.s3.us-east-2.amazonaws.com/tesa.jpg" />
+    <h3>Business</h3>
+    <p>
+      No one knows how to do business like Mr. DeVries. This business man
+      truly knows the ins and outs of people to person busy business.
+      Have you ever needed some dollars or things? Think you can do it yourself?
+      Ya cant! You need a true business person to do some business for you.
+    </p>
+  </div>
+
+
+  <div class="card shadow">
+    <img
+      src="https://thomas-christmas.s3.us-east-2.amazonaws.com/Screen-Shot-2017-09-26-at-15.44.30.jpg" />
+    <h3>Paul Hollywood Certified</h3>
+    <p>
+      You name it, he can bake it. They say a picture can tell a thousand
+      words. Well, here is a picture of Thomas getting a handshake from Paul
+      Hollywood <span style="font-style: italic;">himself.</span> Need we say
+      any more?
+    </p>
+  </div>
+
+</div>
+
+
+{% comment %} BEGIN CALL TO ACTION {% endcomment %}
+
+<div class="home__cta container shadow">
+  <span class="home__arrow">→</span>
+  <a href="{% url 'formpage' %}">
+    <button class="home__cta"
+      >Contact Us!!
+    </button>
+  </a>
+  <span class="home__arrow">←</span>
+</div>
+
 
 {% endblock %}

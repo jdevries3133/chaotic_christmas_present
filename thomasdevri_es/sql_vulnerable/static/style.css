@@ -1,15 +1,27 @@
+:root {
+  --purple: #6b5b95;
+  --yellow: #feb236;
+  --red: #d64161;
+  --orange: #ff7b25;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html {
-  font-family: Arial, Helvetica, sans-serif;
+body {
+  font-family: "Inter", sans-serif;
+  margin: 20px;
+  background-image: url("https://thomas-christmas.s3.us-east-2.amazonaws.com/Screen+Shot+2020-12-24+at+10.14.21+PM.png");
+  background-repeat: repeat;
+  background-size: 100px;
 }
 
 header,
 main {
+  border-radius: 80px;
   display: inline-block;
   text-align: center;
   width: 100%;
@@ -18,12 +30,13 @@ main {
 }
 
 header {
-  background-color: green;
+  background-color: var(--orange);
 }
 
 label,
 p,
-input[type="text"] {
+input[type="text"],
+input[type="password"] {
   font-size: 20px;
 }
 
@@ -32,18 +45,246 @@ textarea {
   padding: 10px;
 }
 
-div.container {
+button {
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.container {
   display: inline-block;
   text-align: center;
   margin-bottom: 20px;
-}
-
-form > div {
-  padding-bottom: 10px;
 }
 
 .important {
   color: red;
   font-weight: bold;
   font-style: italic;
+}
+
+form > div {
+  padding-bottom: 10px;
+}
+
+.neutral-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.rounded {
+  border-radius: 20px;
+}
+
+.shadow {
+  box-shadow: 5px 10px 10px #111;
+}
+
+.vert-whitespace {
+  display: inline-block;
+  height: 6rem;
+}
+
+/*
+ * Spin!
+ */
+
+.spin {
+  margin: 80px;
+  background-color: #0cb1c4;
+  animation-name: spin;
+  animation-duration: 5000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  transform: rotate(3deg);
+  transform: rotate(0.3rad);
+  transform: rotate(3grad);
+  transform: rotate(0.03turn);
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/**
+ * Begin base.html specific styles
+ */
+
+.header__content {
+  margin-top: 5%;
+}
+
+.base__container {
+  margin: 20px;
+}
+
+span.base__thomaszone {
+  font-weight: 900;
+  font-style: italic;
+  color: var(--purple);
+  background-color: #f20034;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+p.base__thomaszone {
+  font-weight: 400;
+  margin-top: 1em;
+  color: white;
+}
+
+/* Begin text feature from codepen */
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+div.feature {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+h1.feature {
+  font-size: 8vw;
+  font-weight: 900;
+  background-color: var(--purple);
+  border-radius: 20px;
+  color: #fff;
+  display: block;
+  padding: 0.5em;
+}
+
+h1.feature:nth-child(2) {
+  position: absolute;
+  background-color: #fff;
+  color: var(--purple);
+  clip-path: inset(
+    -1% -1% 50% -1%
+  ); /* Added the negative values to prevent icky "bleed" in Chrome */
+}
+
+p.feature {
+  font-weight: 900;
+  color: white;
+  margin-top: 1em;
+  text-align: center;
+}
+
+span.feature {
+  display: inline-block;
+  transform: rotate(90deg);
+  size: 40px;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+/* End Codepen spesific styling */
+
+/**
+ * Begin home.html styles
+ */
+
+.card-container {
+  display: grid;
+  grid-template-columns: 25% 25% 25%;
+  grid-template-rows: auto;
+  justify-items: center;
+  justify-content: space-evenly;
+  align-items: start;
+}
+
+.card {
+  background-color: var(--red);
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.card > img {
+  height: 160px;
+  border-radius: 8px;
+}
+
+.card > p {
+  text-align: justify;
+}
+
+.home__card__cube {
+  border-radius: 100%;
+}
+
+/* Call to action */
+
+div.home__cta {
+  background-color: var(--orange);
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 50px;
+}
+
+button.home__cta {
+  font-size: 40px;
+}
+
+.home__arrow {
+  font-size: 50px;
+  color: var(--red);
+  font-weight: 900;
+}
+
+/*
+ * BEGIN CONTACT FORM STYLE
+ */
+
+.outer_container {
+  text-align: center;
+  width: 100%;
+}
+
+.form__container {
+  display: inline-block;
+  padding: 30px;
+  max-width: 580px;
+  text-align: center;
+  margin-top: 40px;
+  background-color: var(--yellow);
+  border-radius: 10px;
+}
+
+.dashb__header {
+  display: inline-block;
+  padding: 20px;
+  background-color: black;
+  color: white;
+  border-radius: 8px;
+}
+
+.dashb__cta {
+  display: inline-block;
+  padding: 10px;
+  color: var(--red);
+  background-color: var(--purple);
+  border-radius: 5px;
+}
+
+.white {
+  background-color: white;
+  border-radius: 10px;
+}
+
+.doclist__listcontainer {
+  padding: 40px;
+  text-align: left;
+}
+
+.markdown__textcontainer {
+  min-width: 800px;
+  padding: 20px;
+  text-align: left;
 }

@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.conf import settings
@@ -39,3 +40,16 @@ def documentation(request, markdownslug):
         "doc_title": slugval.get_path().stem,
         "rendered_markdown": markdown.markdown(markdown_string)
     })
+
+def doclist(request):
+    docs = []
+    for i in Path(settings.BASE_DIR, 'staff', 'markdown').iterdir():
+        if i.name[-3:] != '.md' or i.name[0] == '.' or i.name[0] == '~':
+            continue
+        docs.append(
+            (
+                i.stem,
+                f'/staff/doc/{i.stem}',
+            )
+        )
+    return render(request, 'staff/docs/doclist.html', {'docs': docs})

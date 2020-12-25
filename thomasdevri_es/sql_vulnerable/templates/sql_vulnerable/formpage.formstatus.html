@@ -1,20 +1,17 @@
-<div class="container">
+{% if real_data %}
 
-  {% if real_data %}
+  <h3>Success!</h3>
+  <p>Your message about {{ real_data.subject }} has been sent</p>
 
-      <h3>Success!</h3>
-      <p>Your message about {{ real_data.subject }} has been sent</p>
+{% endif %}
 
-  {% endif %}
+{% if query_responses %}
 
-  {% if query_responses %}
+  <h4 style="margin-top: 20px;">Other Messages:</h4>
+  <p class="important">Our little backend boy has a bit more to say nice'a spicy message!</p>
+  {% for r in query_responses %}
+      <p>{{ r }}</p>
+  {% endfor %}
 
-      <h4 style="margin-top: 20px;">Other Messages:</h4>
-      <p class="important">Our little backend boy has a bit more to say nice'a spicy message!</p>
-      {% for r in query_responses %}
-          <p>{{ r }}</p>
-      {% endfor %}
+{% endif %}
 
-  {% endif %}
-
-</div>
