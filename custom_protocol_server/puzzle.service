@@ -1,0 +1,11 @@
+[Unit]
+Description=TCP Puzzles
+
+[Service]
+User=thomas
+Group=www-data
+WorkingDirectory=/home/thomas/thomas-christmas/custom_protocol_server
+ExecStart=/home/thomas/thomas-christmas/thomasdevri_es/venv/bin/python -m multiportserver
+
+[Install]
+WantedBy=multi-user.target
