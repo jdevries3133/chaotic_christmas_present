@@ -1,4 +1,6 @@
 from time import sleep
+import signal
+import sys
 import socket
 import subprocess
 from pathlib import Path
@@ -20,6 +22,7 @@ class SubprocessServer:
         self.message = message
         self.is_healthy = False
         self.server = None
+
 
     def start(self):
         self.server = subprocess.Popen(
@@ -76,6 +79,10 @@ class SubprocessServerManager:
     def __init__(self, schema: dict):
         self.is_healthy = False  # meaning that servers are up and running
         self.servers = {}
+
+        signal.signal(signal.SIGINT, self.stop)
+        signal.signal(signal.SIGTERM, self.stop)
+
         self._validate_schema(schema)
         for server_name, server in schema.items():
             self.servers[server_name] = SubprocessServer(
@@ -85,6 +92,7 @@ class SubprocessServerManager:
             )
 
     def start(self):
+        print(f'Starting {len(self.servers)} servers.')
         for server_name, server in self.servers.items():
             logger.info(
                 f'Started server: {server_name} on port {server.host}:'
@@ -92,8 +100,10 @@ class SubprocessServerManager:
             )
             server.start()
         self._check_health()
+        self._wait()
 
-    def stop(self):
+    def stop(self, *a, **kw):
+        print(f'Stopping {len(self.servers)} servers.')
         for server_name, server in self.servers.items():
             logger.info(
                 f'Stopped server: {server_name} on port {server.host}:'
@@ -104,6 +114,17 @@ class SubprocessServerManager:
     def restart(self):
         self.stop()
         self.start()
+
+    def _wait(self):
+        """
+        While subprocesses are running, wait for an exit signal.
+        """
+        try:
+            while True:
+                sleep(1)
+        except KeyboardInterrupt:
+            self.stop()
+            sys.exit()
 
     def _check_health(self) -> bool:
         """
