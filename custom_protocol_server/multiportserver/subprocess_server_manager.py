@@ -81,7 +81,6 @@ class SubprocessServerManager:
         self.servers = {}
 
         signal.signal(signal.SIGINT, self.stop)
-        signal.signal(signal.SIGTERM, self.stop)
 
         self._validate_schema(schema)
         for server_name, server in schema.items():
