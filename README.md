@@ -1,5 +1,28 @@
 # Christmas 2020
 
+## Running the Project
+
+The project includes the Django web application and the swarm of TCP servers
+for the TCP puzzles. By forewarned that because the TCP servers were
+implemented with python subprocesses, they will consume ~2gb of RAM.
+I have since learned that I could have built a better implementation
+with the [select module,](https://docs.python.org/3/library/select.html)
+and maybe I will revisit this and update it some day.
+
+Nonetheless, the project can be installed by enabling the two systemd
+services at `custom_protocol_server/puzzle.service` and
+`thomasdevri_es/gunicorn/gunicorn.service` (adjusting file paths
+within appropriately), or by simply running these two commands from the
+project root:
+
+    # no requirements.txt; built-in modules only
+    python3 -m custom_protocol_server/multiportserver
+
+    # in a separate terminal window
+    pip install -r thomasdevri_es/requirements.txt
+    python3 thomasdevri_es/manage.py migrate
+    python3 thomasdevri_es/manage.py runserver
+
 ## Flow
 
 ## 1. "I really dig your name"
