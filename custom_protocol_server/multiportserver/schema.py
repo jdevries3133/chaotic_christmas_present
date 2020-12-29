@@ -2,7 +2,7 @@ from random import randint
 
 SCHEMA = {
     'hello world / please kill me now': {
-        'host': '127.0.0.1',
+        'host': '0.0.0.0',
         'port': 1050,
         'message': (
             'Dear god please help me world! These assholes have me replying to '
@@ -29,13 +29,13 @@ assert len(fibbonaci_ports) == len(fibbonaci_message)
 for port, message in zip(fibbonaci_ports, fibbonaci_message):
     SCHEMA[f'Fibbonaci, port {port}'] = {
         'port': port,
-        'host': '127.0.0.1',
+        'host': '0.0.0.0',
         'message': message,
     }
 
 SCHEMA['JAIL'] = {
     'port': 5245,  # JAIL on a number pad
-    'host': '127.0.0.1',
+    'host': '0.0.0.0',
     'message': (
         'Nice job buddy ol boy. Go to this link: https://thomasdevri.es'
         '/staff/docs/you.might/'
@@ -74,7 +74,7 @@ class GenSchema:
             else:
                 message = f'CHAR: {letter}; GOTO: {self.last_port}'
             self.schema[f'__round_1_letter_{letter}_on_port{port}'] = {
-                'host': '127.0.0.1',
+                'host': '0.0.0.0',
                 'port': port,
                 'message': message,
             }
@@ -82,7 +82,7 @@ class GenSchema:
             self.ports_used.add(port)
 
         self.schema['__round_1_root_node'] = {
-            'host': '127.0.0.1',
+            'host': '0.0.0.0',
             'port': self.root_node,
             'message': f'CHAR: self.secret[0]; GOTO: {port}'
         }
