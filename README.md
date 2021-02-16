@@ -3,7 +3,7 @@
 ## Running the Project
 
 The project includes the Django web application and the swarm of TCP servers
-for the TCP puzzles. By forewarned that because the TCP servers were
+for the TCP puzzles. Be forewarned that because the TCP servers were
 implemented with python subprocesses, they will consume ~2gb of RAM.
 I have since learned that I could have built a better implementation
 with the [select module,](https://docs.python.org/3/library/select.html)
