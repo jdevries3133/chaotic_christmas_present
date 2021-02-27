@@ -15,17 +15,17 @@ services at `custom_protocol_server/puzzle.service` and
 within appropriately), or by simply running these two commands from the
 project root:
 
-    # no requirements.txt; built-in modules only
-    python3 -m custom_protocol_server/multiportserver
+```bash
+# no requirements.txt; built-in modules only
+python3 -m custom_protocol_server/multiportserver
 
-    # in a separate terminal window
-    pip install -r thomasdevri_es/requirements.txt
-    python3 thomasdevri_es/manage.py migrate
-    python3 thomasdevri_es/manage.py runserver
+# in a separate terminal window
+pip install -r thomasdevri_es/requirements.txt
+python3 thomasdevri_es/manage.py migrate
+python3 thomasdevri_es/manage.py runserver
+```
 
 ## Flow
-
-## 1. "I really dig your name"
 
 ### Breadcrumbs
 
@@ -73,8 +73,22 @@ company's experimental TCP protocols, and give Thomas the ports to look for
 > Implement custom TCP protocols, each of which will be puzzles with clues
 > towards the next step.
 
-### Ideas for Data to Send
+Implementation is in `custom_protocol_server`. Swarms of simple TCP servers
+on many ports can be run together. The `SubprocessServerManager` class only
+needs to be provided a schema, a dictionary like the one below, and it
+can spin up and supervise many TCP servers with subprocesses.
 
-- It turns out, you can put an arbitrary amount of bullshit before or after
-  the body of a pdf file, meaning that a pdf document can be obfuscated
-  by surrounding it by a huge amount of nonsense.
+```python
+schema = {
+    'unique_server_identifier': {
+        'host': '127.0.0.1',
+        'port': 6001,
+        'message': 'test server 1 message'
+    }
+}
+```
+
+For the puzzle, I used this system to expose several puzzles as linked
+lists across many TCP ports. That is achieved by the hard coded default
+configuration found
+[here.](https://github.com/jdevries3133/chaotic_christmas_present/blob/main/custom_protocol_server/multiportserver/schema.py)
