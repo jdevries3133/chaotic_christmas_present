@@ -1,5 +1,12 @@
 # Christmas 2020
 
+## See It Live
+
+This project is running live at [thomasdevri.es.](https://thomasdevri.es)
+
+Have fun trying to hack it! It should be easier than it was for my brother
+with the source code at your disposal :)
+
 ## Running the Project
 
 The project includes the Django web application and the swarm of TCP servers
